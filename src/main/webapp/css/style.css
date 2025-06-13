@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 300px;
+  text-align: center;
+}
+
+
+input[type="text"], input[type="password"] {
+  padding: 10px;
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+button.delete {
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.header, .footer {
+  background-color: #fff;
+  color: black;
+  padding: 15px;
+  text-align: center;
+}
+
+.header nav {
+    background-color: #fff;
+    color: black;
+    padding: 5px;
+    text-align: right;
+}
+
+.header nav a {
+  color: black;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.error-box {
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4d;
+  color: #cc0000;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .gallery {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .photo-card {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .header nav {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  button {
+    font-size: 16px;
+  }
+}
