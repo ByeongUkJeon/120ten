@@ -42,13 +42,13 @@ public class RankingServlet extends HttpServlet {
         LocalDateTime start = today.atStartOfDay();            
         LocalDateTime end = today.plusDays(1).atStartOfDay();  
 
-        if(view.equals("day")) {
+        if(view.equals("daily")) {
             today = LocalDate.now();
             start = today.atStartOfDay();            
             end = today.plusDays(1).atStartOfDay();  
      
             }
-        else if(view.equals("week")) {
+        else if(view.equals("weekly")) {
             start = today.minusDays(today.getDayOfWeek().getValue()).atStartOfDay();      
             System.out.println(start);
             end = today.plusDays(7 - today.getDayOfWeek().getValue()).atStartOfDay();      
@@ -56,7 +56,7 @@ public class RankingServlet extends HttpServlet {
 
         }
         
-        else if(view.equals("month")) {
+        else if(view.equals("monthly")) {
             start = today.minusDays(today.getDayOfMonth() - 1).atStartOfDay();      
             System.out.println(start);
             end = today.plusDays(today.lengthOfMonth() - today.getDayOfMonth() + 1).atStartOfDay();
@@ -67,7 +67,7 @@ public class RankingServlet extends HttpServlet {
                 .getResultList();
         
         em.close();
-
+        request.setAttribute("view", view);
         request.setAttribute("photos", photos);
         
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/vision/ranking.jsp");

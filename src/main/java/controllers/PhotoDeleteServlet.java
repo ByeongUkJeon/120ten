@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import models.Comment;
+import models.Like;
 import models.Photo;
 import models.User;
 import utils.DBUtil;
@@ -55,6 +56,12 @@ public class PhotoDeleteServlet extends HttpServlet {
                     .getResultList();
             for (Comment c : comments) {
                 em.remove(c);
+            }
+            List<Like> likes= em.createNamedQuery("getLikes", Like.class)
+                    .setParameter("photo_id", request.getParameter("photoid"))
+                    .getResultList();
+            for (Like l : likes) {
+                em.remove(l);
             }
             
             Photo p = em.find(Photo.class, Integer.parseInt(request.getParameter("photoid")));

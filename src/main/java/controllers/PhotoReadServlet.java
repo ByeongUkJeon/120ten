@@ -64,7 +64,7 @@ public class PhotoReadServlet extends HttpServlet {
                 List<Like> like = em.createNamedQuery("getLikeCheck", Like.class)
                         .setParameter("photo_id", request.getParameter("id"))
                         .setParameter("user_id", loginedUser.getId())
-                            .getResultList();
+                        .getResultList();
                 liked = like.isEmpty();
                 request.setAttribute("loginedUser", session.getAttribute("loginedUser"));
             }

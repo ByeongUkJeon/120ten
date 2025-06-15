@@ -24,6 +24,7 @@ import com.google.cloud.vision.v1.EntityAnnotation;
 
 import utils.SummaryUtil;
 import utils.VisionUtil;
+import utils.VisionUtil2;
 
 /**
  * Servlet implementation class UploadServlet
@@ -66,6 +67,10 @@ public class UploadServlet extends HttpServlet {
         try {
             Part filePart = request.getPart("image");
             
+            String contentType = filePart.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                throw new ServletException("이미지 파일만 업로드 가능합니다.");
+            }
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             UUID uuid = UUID.randomUUID();
             fileName = uuid + "." + fileName.split("[.]")[1];
@@ -84,7 +89,8 @@ public class UploadServlet extends HttpServlet {
             List<String> labels = new ArrayList<>();
 
             result = VisionUtil.detectLabels(file.getAbsolutePath());
-            score = VisionUtil.calculateArtScore(result);
+            //score = VisionUtil.calculateAdvancedArtScore(result);
+            score = VisionUtil2.evaluateArtisticScore(file.getAbsolutePath());
             for (EntityAnnotation ent : result) {
 
                 labels.add(ent.getDescription());

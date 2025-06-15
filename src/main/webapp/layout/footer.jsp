@@ -2,5 +2,5 @@
 
 <hr>
 <div class="footer">
-  <p>&copy; 2025 120点. All rights reserved?</p>
+  <p>&copy; 2025 120点. All rights reserved? By Jeon Byeonguk.</p>
 </div>
