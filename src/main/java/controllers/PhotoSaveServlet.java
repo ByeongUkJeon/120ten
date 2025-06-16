@@ -59,10 +59,11 @@ public class PhotoSaveServlet extends HttpServlet {
             em.persist(photo);
             em.getTransaction().commit();
             em.close();
-            
+            String redirectUrl = "photo?id=" + photo.getId();
+
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter writer = response.getWriter();
-            writer.println("<script>alert('登録が完了されました。'); location.href='index';</script>"); 
+            writer.println("<script>alert('登録が完了されました。'); location.href='"+redirectUrl+"';</script>"); 
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();

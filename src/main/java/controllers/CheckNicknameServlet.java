@@ -16,7 +16,7 @@ import utils.DBUtil;
 /**
  * Servlet implementation class CheckAccountServlet
  */
-@WebServlet("/checkaccount")
+@WebServlet("/checknickname")
 public class CheckNicknameServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
        
@@ -32,13 +32,13 @@ public class CheckNicknameServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String account = request.getParameter("account");
+        String nickname = request.getParameter("nickname");
         
         EntityManager em = DBUtil.createEntityManager();
         User u = new User();
         try {
-            u = em.createNamedQuery("accountCheck", User.class)
-                    .setParameter("account", account)
+            u = em.createNamedQuery("nicknameCheck", User.class)
+                    .setParameter("nickname", nickname)
                     .getSingleResult();
         } catch (NoResultException e) {
             response.getWriter().print("available");

@@ -25,10 +25,12 @@
       </c:if>
     <h2>会員登録</h2>
 <form action="${pageContext.request.contextPath}/signup" method="post">
-  <input type="text" id ="account" name="account" placeholder="ID" value="${user.account}" onkeyup="checkUsername()" required /><br/>
+  <input type="text" id ="account" name="account" placeholder="ID" value="${user.account}" onkeyup="checkAccount();" required /><br/>
   <span id="account-status"></span><br/>
-  <input type="text" name="nickname" placeholder="ニックネーム" value="${user.username}" required /><br/>
-  <input type="password" name="password" placeholder="暗証番号" required /><br/>
+  <input type="text" id="nickname" name="nickname" placeholder="ニックネーム" value="${user.username}" onkeyup="checkNickname();"  required /><br/>
+   <span id="nickname-status"></span><br/>
+  <input type="password" id ="password" name="password" placeholder="暗証番号" onkeyup="checkPassword();" required /><br/>
+   <span id="password-status"></span><br/>
   <input type="password" name="confirmpassword" placeholder="暗証番号(確認用)" required /><br/> 
   <button id="btn" name="btn" type="submit">会員登録</button>
     </div>
@@ -38,7 +40,7 @@
 </body>
 
 <script>
-function checkUsername() {
+function checkAccount() {
   const account = document.getElementById("account").value;
   const status = document.getElementById("account-status");
 
@@ -65,6 +67,56 @@ function checkUsername() {
       }
     });
 }
+
+function checkNickname() {
+      const nickname = document.getElementById("nickname").value;
+      const status = document.getElementById("nickname-status");
+
+      fetch("checknickname?nickname=" + encodeURIComponent(nickname))
+        .then(res => res.text())
+        .then(data => {
+           const btn = document.getElementById("btn");
+            console.log(data);
+          if (data.includes("taken")) {
+            status.innerHTML = "このニックネームはご利用できません。";
+            status.style.color = "red";
+            btn.style.backgroundColor = "#A4AAA7";
+            
+            btn.disabled = true;
+          } else if (data.includes("available")) {
+            status.innerHTML = "ご利用可能なニックネームです。";
+            status.style.color = "green";
+            btn.disabled = false;
+            btn.style.backgroundColor = "#4CAF50";
+          } else {
+            status.innerHTML = "エラー発生.";
+            status.style.color = "gray";
+            btn.disabled = true;
+          }
+        });
+    }
+
+function checkPassword() {
+    const password = document.getElementById("password").value;
+    const status = document.getElementById("password-status");
+    const btn = document.getElementById("btn");
+    if (password.length < 4) {
+        status.innerHTML = "暗証番号は4桁以上です。";
+        status.style.color = "red";
+        btn.style.backgroundColor = "#A4AAA7";
+        
+        btn.disabled = true;
+      } else if (password.length >= 4) {
+        status.innerHTML = "";
+        btn.disabled = false;
+        btn.style.backgroundColor = "#4CAF50";
+        
+      } else {
+        status.innerHTML = "エラー発生.";
+        status.style.color = "gray";
+        btn.disabled = true;
+      }
+  }
 </script>
 
 </html>

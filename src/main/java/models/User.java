@@ -22,7 +22,11 @@ import jakarta.persistence.Table;
     @NamedQuery(
             name = "accountCheck",
             query = "SELECT u FROM User AS u where u.account= :account"
-    )
+    ),
+    @NamedQuery(
+            name = "nicknameCheck",
+            query = "SELECT u FROM User AS u where u.username= :nickname"
+    ),
 })
 @Table(name = "users")
 public class User {

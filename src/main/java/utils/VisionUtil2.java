@@ -29,15 +29,14 @@ public class VisionUtil2 {
         "scenery", "valley", "forest", "lake", "river", "tree", "dusk", "sunlight", "water",
         "glacier", "alps", "coast", "sea", "ocean", "beach", "tropics", "snow", "canyon",
         "photography", "lighting", "exposure", "symmetry", "focus", "color", "black and white",
-        "contrast", "depth", "motion blur", "shutter", "framing", "lens", "reflections",
-        "emotion", "mood", "expression", "mystery", "melancholy", "drama", "silence",
-        "solitude", "storytelling", "introspection", "dessert"
+        "contrast", "depth", "motion blur", "shutter", "framing", "lens", "reflections", "holiday",
+        "emotion", "mood", "expression", "mystery", "melancholy", "drama", "silence", "geological phenomenon", "vacation",
+        "solitude", "storytelling", "introspection", "dessert", "landmark", "metropolis", "metropolitan area", "winter", "leisure"
     );
 
     private static final Set<String> penaltyLabels = Set.of(
-        "selfie", "person", "people", "face", "finger", "hand", "eye", "skin", "smile",
-        "gesture", "crowd", "portrait photography", "group", "individual", "man", "woman",
-        "boy", "girl", "food", "dish", "meal", "snack", "plate", "cuisine", "drink",
+        "selfie", "face", "finger", "hand", "eye", "skin", "smile",
+        "gesture", "crowd", "portrait photography", "group", "individual", "food", "dish", "meal", "snack", "plate", "cuisine", "drink",
         "coffee", "product", "bottle", "container", "package", "indoor", "room",
         "furniture", "appliance", "object", "text", "label", "screen", "monitor",
         "keyboard", "phone", "computer", "advertisement", "poster", "sign", "art",
@@ -49,7 +48,7 @@ public class VisionUtil2 {
         "visual storytelling", "art", "artwork", "minimalism", "moody",
         "dramatic", "surrealism"
     );
-
+    
     public static class VisionResult {
         public List<EntityAnnotation> labelAnnotations;
         public List<LocalizedObjectAnnotation> objectAnnotations;
@@ -87,10 +86,10 @@ public class VisionUtil2 {
     }
 
     public static int calculateArtScore(List<EntityAnnotation> labels) {
-        double score = 30;
+        double score = 30; 
         int artLabelCount = 0;
         int totalLabels = labels.size();
-
+        
         for (EntityAnnotation label : labels) {
             String desc = label.getDescription().toLowerCase();
             float confidence = label.getScore();
@@ -99,7 +98,7 @@ public class VisionUtil2 {
                 artLabelCount++;
             }
             if (penaltyLabels.stream().anyMatch(desc::contains)) {
-                score -= confidence * 4;
+                score -= confidence * 4; 
             }
         }
 
@@ -131,13 +130,13 @@ public class VisionUtil2 {
         }
 
         double avgSaturation = totalSaturation / colorCount;
-        if (avgSaturation < 0.1) return 5;
-        else if (avgSaturation > 0.7) return 3;
-        else return 0;
+        if (avgSaturation < 0.1) return 7;
+        else if (avgSaturation > 0.7) return 5;
+        else return 3;
     }
 
     public static int evaluateObjectLayout(List<LocalizedObjectAnnotation> objects) {
-        if (objects == null || objects.isEmpty()) return 0;
+        if (objects == null || objects.isEmpty()) return 2;
         int peopleCount = 0;
         int offCenterPeople = 0;
 
@@ -156,9 +155,9 @@ public class VisionUtil2 {
             }
         }
 
-        if (peopleCount == 0) return 3;
-        if (peopleCount <= 2 && offCenterPeople == peopleCount) return 2;
-        return -3;
+        if (peopleCount == 0) return 5;
+        if (peopleCount <= 2 && offCenterPeople == peopleCount) return 3;
+        return -2;
     }
 
     public static int analyzeWebKeywords(WebDetection webDetection) {

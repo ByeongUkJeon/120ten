@@ -128,20 +128,17 @@ public class VisionUtil {
             float confidence = label.getScore();
             descSet.add(desc);
 
-            // 감정 키워드 (예: mystery, solitude 등)
             if (isEmotionalKeyword(desc)) {
                 score += confidence * 8;
                 emotionalLabelCount++;
             }
 
-            // 예술성 라벨
             if (isArtLabel(desc)) {
-                score += Math.pow(confidence, 1.3) * 10; // 곡선 가중치 적용
+                score += Math.pow(confidence, 1.3) * 10;
                 artLabelCount++;
                 matchedCategories.add(getArtCategory(desc));
             }
 
-            // 패널티 라벨
             if (isPenaltyLabel(desc) && !isBalancedWithArt(desc, descSet)) {
                 score -= Math.pow(confidence, 1.2) * 5;
             }
@@ -174,7 +171,6 @@ public class VisionUtil {
         return desc.equals("person") && allLabels.contains("silhouette") && allLabels.contains("sunset");
     }
 
-    // 예술 키워드를 카테고리화해 중복 방지
     private static String getArtCategory(String keyword) {
         if (keyword.contains("mountain") || keyword.contains("valley")) return "landform";
         if (keyword.contains("sunset") || keyword.contains("sunrise")) return "light";

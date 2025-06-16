@@ -66,7 +66,6 @@
   color: #333;
 }
 
-/* 상위 3위는 강조 */
 .ranking-card.large {
   transform: scale(1.05);
   border: 2px solid #FFD700;
@@ -139,7 +138,6 @@
      <c:otherwise>
         <div class="ranking-wrapper">
         
-          <!-- 🥇 Top 3 -->
           <div class="top3-grid">
             <c:forEach var="photo" items="${photos}" varStatus="status">
               <c:if test="${status.index lt 3}">
@@ -160,7 +158,6 @@
             </c:forEach>
           </div>
         
-          <!-- 🎖️ Others -->
           <div class="others-grid">
             <c:forEach var="photo" items="${photos}" varStatus="status">
               <c:if test="${status.index ge 3}">

@@ -67,9 +67,6 @@
 <div class="res">
 
 
-  <h2>🎨 Score: <c:out value="${score}"/>点</h2>
-  <img src="photos/<c:out value="${filename}"/>" width="500"/>
-  <h3><c:out value="${summary}"/></h3>
   <%-- 
   <h3>Label:</h3>
   <ul>
@@ -78,12 +75,25 @@
       </c:forEach>
   </ul>
   --%>
-  <form action="<c:url value='/save' />" method="post">
-  <input type="hidden" name="filename" value="${filename}" />
-  <input type="hidden" name="score" value="${score}" />
-  <input type="hidden" name="summary" value="${summary}" />
-  <button type="submit">写真を公開</button>
-</form>
+  <c:choose>
+  <c:when test="${empty labels}">
+  
+    <img src="photos/<c:out value="${filename}"/>" width="500"/>
+    <h3>写真に何かしらの問題があります。</h3>
+    <h2>公開できない写真です。</h2>
+  </c:when>
+  <c:otherwise>
+    <h2>🎨 Score: <c:out value="${score}"/>点</h2>
+    <img src="photos/<c:out value="${filename}"/>" width="500"/>
+    <h3><c:out value="${summary}"/></h3>
+    <form action="<c:url value='/save' />" method="post">
+      <input type="hidden" name="filename" value="${filename}" />
+      <input type="hidden" name="score" value="${score}" />
+      <input type="hidden" name="summary" value="${summary}" />
+      <button type="submit">写真を公開</button>
+    </form>
+  </c:otherwise>
+  </c:choose>
 </div>
 </div>
 

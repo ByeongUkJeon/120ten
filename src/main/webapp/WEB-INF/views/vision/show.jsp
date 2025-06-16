@@ -202,7 +202,7 @@ button.delete {
   <form action="<c:url value='/deletephoto' />" method="post">
     <input type="hidden" name="photoid" value="${photo.id}" />
     <input type="hidden" name="account" value="${writer.account}" />
-    <button type="submit" class="delete" onClick="confirmDestroy(0);">削除</button>
+    <button type="button" class="delete" onClick="confirmDestroy(0);">削除</button>
 </form>
   </c:if>
   <div class="like-container">
@@ -231,7 +231,7 @@ button.delete {
         <input type="hidden" name="photo_id" value="${photo.id}" />  
         <input type="hidden" name="account" value="${comment.user.account}" />
           
-        <button type="submit" class="delete-btn" onclick="confirmDestroy(1);">削除</button>
+        <button type="button" class="delete-btn" onclick="confirmDestroy(1);">削除</button>
       </form>
       </c:if>
     </div>
@@ -257,6 +257,7 @@ button.delete {
            if(confirm("本当に削除してよろしいですか？")) {
                document.forms[n].submit();
            }
+           return false;
        }
        function toggleLike(photoId) {
            fetch("like?photoId=" + photoId)

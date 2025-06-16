@@ -16,22 +16,41 @@
 }
 
 .photo-card {
-  width: 180px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  overflow: hidden;
-  text-align: center;
+    width: 220px;
+    height:250px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    background: white;
+    text-align: center;
+    transition: transform 0.2s ease;
 }
 
 .photo-card img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-bottom: 1px solid #ddd;
+    width: 100%;
+    height: 60%;
+    display: block;
+    border-bottom: 1px solid #eee;
 }
 
+
+.photo-score {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+    padding: 8px 0;
+}
+
+.photo-meta {
+    font-size: 13px;
+    color: #666;
+    padding-bottom: 10px;
+}
+
+.photo-meta span {
+    display: block;
+    margin: 2px 0;
+}
 .caption {
   padding: 8px;
   font-size: 14px;
@@ -53,7 +72,12 @@
   <c:forEach var="photo" items="${photos}">
     <div style=" cursor: pointer;" onclick="location.href='photo?id=${photo.id}'" class="photo-card">
       <img src="photos/${photo.imagePath}" alt="alt" />
-      <div class="caption">🎨${photo.score}点</div>
+      <div class="photo-score">🎨${photo.score}点</div>
+      <div class="photo-meta">
+          <span class="author">👤 ${photo.user.username}</span> <span
+              class="date">📅 ${photo.createdAt}</span>
+      </div>
+      
     </div>
     </c:forEach>
   <c:if test="${empty photos }">

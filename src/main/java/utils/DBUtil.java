@@ -5,7 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class DBUtil {
-    private static final String PERSISTENCE_UNIT_NAME = "120ten";
+    private static final String PERSISTENCE_UNIT_NAME = "120";
     private static EntityManagerFactory emf;
 
     public static EntityManager createEntityManager() {

@@ -2,7 +2,9 @@ package controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import models.Photo;
 import models.User;
+import utils.DBUtil;
 
 /**
  * Servlet implementation class MypageServlet
@@ -38,7 +42,11 @@ public class MypageServlet extends HttpServlet {
             User u = (User) session.getAttribute("loginedUser");
             
             request.setAttribute("user", u);
+            EntityManager em = DBUtil.createEntityManager();
             
+            List<Photo> photos = em.createNamedQuery("getPhotoUser", Photo.class).setParameter("id", u.getId()).getResultList();
+            request.setAttribute("photos", photos);
+
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/mypage.jsp");
             rd.forward(request, response);
            

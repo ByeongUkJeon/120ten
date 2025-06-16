@@ -57,9 +57,7 @@ public class LoginServlet extends HttpServlet {
         
         User u = null;
         try {
-            //パスワードのハッシュ化
             String hashedPassword = EncryptUtil.sha256(password);
-            //社員番号とハッシュ化済パスワードを条件に未削除の従業員を1件取得する
             u = em.createNamedQuery("userLogin", User.class)
                     .setParameter("account", account)
                     .setParameter("password", hashedPassword)

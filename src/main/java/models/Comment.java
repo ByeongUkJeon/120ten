@@ -18,6 +18,10 @@ import jakarta.persistence.Table;
             name = "getComments",
             query = "SELECT c FROM Comment AS c where c.photo.id = :photoid"
     ),
+    @NamedQuery(
+            name = "getCommentsByUser",
+            query = "SELECT c FROM Comment AS c where c.user.id = :id"
+    ),
 })
 @Table(name = "comments")
 public class Comment {

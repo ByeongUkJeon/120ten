@@ -15,6 +15,14 @@
     </c:choose>
   </nav>
   <h1><a href="index">120点!</a></h1>
-    <a href="list?page=1">写真目録</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="ranking?view=daily">ランキング</a> 
+    <a href="list?page=1">写真目録</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="ranking?view=daily">ランキング</a> <br>
+<div class="search-box">
+  <form action="search" method="get" class="search-form">
+    <input type="text" name="keyword" placeholder="検索ワード" class="search-input" required>  
+    <button type="submit" class="search-button" title="検索">
+      🔍
+    </button>
+  </form>
+</div>
 </div>
 <hr>

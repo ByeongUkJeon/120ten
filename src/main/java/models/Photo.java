@@ -30,7 +30,15 @@ import jakarta.persistence.Table;
     @NamedQuery(
             name = "getRankingPhotos",
             query = "SELECT p FROM Photo AS p where p.createdAt >= :start AND p.createdAt < :end order by p.score DESC"
-    )
+    ),
+    @NamedQuery(
+            name = "getPhotoUser",
+            query = "SELECT p FROM Photo AS p where p.user.id = :id"
+    ),
+    @NamedQuery(
+            name = "getSearchPhoto",
+            query = "SELECT p FROM Photo AS p where p.label LIKE :keyword"
+    ),
 })
 @Table(name = "photos")
 public class Photo {

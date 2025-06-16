@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = {"/upload", "/save", "/deletephoto", "/addcomment", "/like"})
+@WebFilter(urlPatterns = {"/upload", "/save", "/deletephoto", "/addcomment", "/like", "/mypage"})
 public class LoginFilter extends HttpFilter implements Filter {
 
     /**

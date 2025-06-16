@@ -1,8 +1,10 @@
 package controllers;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -66,31 +68,64 @@ public class UploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Part filePart = request.getPart("image");
-            
-            String contentType = filePart.getContentType();
-            if (contentType == null || !contentType.startsWith("image/")) {
-                throw new ServletException("이미지 파일만 업로드 가능합니다.");
-            }
+
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             UUID uuid = UUID.randomUUID();
-            fileName = uuid + "." + fileName.split("[.]")[1];
+            String extension = fileName.split("[.]")[1].toLowerCase();
+            fileName = uuid + "." + extension;
             
             String uploadPath = getServletContext().getRealPath("") + File.separator + "photos";
             
             Files.createDirectories(Paths.get(uploadPath));
-
+            System.out.println(extension);
             File file = new File(uploadPath, fileName);
-
             InputStream input = filePart.getInputStream();
             Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            String Path = file.getAbsolutePath();
+            if (extension.equals("heic") || extension.equals("heif") || extension.equals("avif")) {
+                String jpgFileName = uuid + ".jpg";
+                File jpgFile = new File(uploadPath, jpgFileName);
+
+                ProcessBuilder builder = new ProcessBuilder(
+                        "ffmpeg",
+                        "-i", file.getAbsolutePath(),
+                        "-map", "0:60",         
+                        "-frames:v", "1",         
+                        jpgFile.getAbsolutePath()
+                );
+
+                try {
+                    Process process = builder.start();
+
+                    try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                        String line;
+                        while ((line = errorReader.readLine()) != null) {
+                            System.err.println(line);
+                        }
+                    }
+
+                    int exitCode = process.waitFor();
+                    if (exitCode == 0) {
+                        fileName = jpgFileName;
+                        file.delete();
+                        Path = jpgFile.getAbsolutePath();
+                    } else {
+                        throw new RuntimeException("ffmpeg エラー");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("HEIC エラー");
+                }
+            }
+
        
             int score = 0;
             List<EntityAnnotation> result = new ArrayList<>();
             List<String> labels = new ArrayList<>();
 
-            result = VisionUtil.detectLabels(file.getAbsolutePath());
+            result = VisionUtil.detectLabels(Path);
             //score = VisionUtil.calculateAdvancedArtScore(result);
-            score = VisionUtil2.evaluateArtisticScore(file.getAbsolutePath());
+            score = VisionUtil2.evaluateArtisticScore(Path);
             for (EntityAnnotation ent : result) {
 
                 labels.add(ent.getDescription());
@@ -111,7 +146,7 @@ public class UploadServlet extends HttpServlet {
             e.printStackTrace();
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter writer = response.getWriter();
-            writer.println("<script>alert('エラーが発生しました。'); location.href='login';</script>"); 
+            writer.println("<script>alert('エラーが発生しました。'); location.href='index';</script>"); 
             writer.close();
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }

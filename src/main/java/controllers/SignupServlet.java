@@ -82,7 +82,6 @@ public class SignupServlet extends HttpServlet {
             if(errors.size() > 0) {
                 em.close();
 
-                // フォームに初期値を設定、さらにエラーメッセージを送る
                 request.setAttribute("user", u);
                 request.setAttribute("errors", errors);
                 for (String error : errors) {
@@ -91,13 +90,11 @@ public class SignupServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/signup.jsp");
                 rd.forward(request, response);
             } else {
-                // データベースに保存
                 em.persist(u);
                 em.getTransaction().commit();
                 request.getSession().setAttribute("flush", "登録が完了しました。");
                 em.close();
 
-                // indexのページにリダイレクト
                 response.sendRedirect("index");
             }
         }

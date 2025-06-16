@@ -25,6 +25,10 @@ import jakarta.persistence.Table;
             name = "getLikes",
             query = "SELECT l FROM Like AS l where l.photo.id = :photo_id"
         ),
+    @NamedQuery(
+            name = "getLikesByUser",
+            query = "SELECT l FROM Like AS l where l.user.id = :id"
+        ),
 })
 @Table(name = "likes")
 public class Like {

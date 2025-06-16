@@ -42,13 +42,8 @@ public class RankingServlet extends HttpServlet {
         LocalDateTime start = today.atStartOfDay();            
         LocalDateTime end = today.plusDays(1).atStartOfDay();  
 
-        if(view.equals("daily")) {
-            today = LocalDate.now();
-            start = today.atStartOfDay();            
-            end = today.plusDays(1).atStartOfDay();  
-     
-            }
-        else if(view.equals("weekly")) {
+
+        if(view.equals("weekly")) {
             start = today.minusDays(today.getDayOfWeek().getValue()).atStartOfDay();      
             System.out.println(start);
             end = today.plusDays(7 - today.getDayOfWeek().getValue()).atStartOfDay();      
@@ -63,7 +58,8 @@ public class RankingServlet extends HttpServlet {
             System.out.println(end);
        
         }
-        List<Photo> photos = em.createNamedQuery("getRankingPhotos", Photo.class).setParameter("start", start).setParameter("end", end)
+
+        List<Photo> photos = em.createNamedQuery("getRankingPhotos", Photo.class).setParameter("start", start).setParameter("end", end).setMaxResults(20)
                 .getResultList();
         
         em.close();
