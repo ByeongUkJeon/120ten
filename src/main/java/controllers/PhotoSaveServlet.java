@@ -49,8 +49,8 @@ public class PhotoSaveServlet extends HttpServlet {
             
             User uploadUser = (User) request.getSession().getAttribute("loginedUser");
             photo.setUser(uploadUser);
-
-            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis() + 32400000);
             photo.setCreatedAt(currentTime);     
             
             photo.setLabel(summary);

@@ -18,7 +18,6 @@ public class SummaryUtil {
 
     public static String generateSummary(List<String> labels) throws IOException {
         String prompt = "次のラベルに基づいて写真を評価する短い文章を作成してください。(30字以内) : " + String.join(", ", labels);
-        System.out.println("prompt " + prompt);
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                 .createScoped("https://www.googleapis.com/auth/generative-language");
             credentials.refreshIfExpired();
@@ -49,7 +48,6 @@ public class SummaryUtil {
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Raw response body: " + response.body());
 
             JsonObject responseJson = JsonParser.parseString(response.body()).getAsJsonObject();
             return responseJson.getAsJsonArray("candidates")

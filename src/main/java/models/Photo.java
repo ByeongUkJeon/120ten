@@ -39,6 +39,10 @@ import jakarta.persistence.Table;
             name = "getSearchPhoto",
             query = "SELECT p FROM Photo AS p where p.label LIKE :keyword"
     ),
+    @NamedQuery(
+            name = "getSearchPhotoCount",
+            query = "SELECT COUNT(p) FROM Photo AS p where p.label LIKE :keyword"
+    ),
 })
 @Table(name = "photos")
 public class Photo {

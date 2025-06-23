@@ -19,6 +19,7 @@
 <div class="search-box">
   <form action="search" method="get" class="search-form">
     <input type="text" name="keyword" placeholder="検索ワード" class="search-input" required>  
+    <input type="hidden" name="page" value="1" />  
     <button type="submit" class="search-button" title="検索">
       🔍
     </button>

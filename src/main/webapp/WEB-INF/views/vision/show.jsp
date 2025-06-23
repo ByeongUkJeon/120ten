@@ -199,10 +199,10 @@ button.delete {
   <img src="photos/<c:out value="${photo.imagePath}"/>" width="500"/>
   <h3><c:out value="${photo.label}"/></h3>
   <c:if test="${isWriter}">
-  <form action="<c:url value='/deletephoto' />" method="post">
+  <form action="<c:url value='/deletephoto' />" method="post" id="photo-delete">
     <input type="hidden" name="photoid" value="${photo.id}" />
     <input type="hidden" name="account" value="${writer.account}" />
-    <button type="button" class="delete" onClick="confirmDestroy(0);">削除</button>
+    <button type="button" class="delete" onClick="confirmDestroy('photo-delete');">削除</button>
 </form>
   </c:if>
   <div class="like-container">
@@ -226,12 +226,12 @@ button.delete {
       <div class="comment-author">${comment.user.username}</div>
       <div class="comment-content">${comment.comm }</div>
       <c:if test="${comment.user.username == loginedUser.username }">
-       <form class="delete-form" method="post" action="deletecomment">
+       <form class="delete-form" id="comment-delete-${comment.id}" method="post" action="deletecomment">
         <input type="hidden" name="commentId" value="${comment.id}" />
         <input type="hidden" name="photo_id" value="${photo.id}" />  
         <input type="hidden" name="account" value="${comment.user.account}" />
           
-        <button type="button" class="delete-btn" onclick="confirmDestroy(1);">削除</button>
+        <button type="button" class="delete-btn" onclick="confirmDestroy('comment-delete-${comment.id}');">削除</button>
       </form>
       </c:if>
     </div>
@@ -253,9 +253,10 @@ button.delete {
         <c:if test="${not liked}">
           btn.classList.add("liked");
         </c:if>
-       function confirmDestroy(n) {
+       function confirmDestroy(forms) {
            if(confirm("本当に削除してよろしいですか？")) {
-               document.forms[n].submit();
+               let fr = document.getElementById(forms)
+               fr.submit();
            }
            return false;
        }

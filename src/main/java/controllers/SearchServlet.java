@@ -44,7 +44,7 @@ public class SearchServlet extends HttpServlet {
                     .setMaxResults(12).getResultList();
             request.setAttribute("photos", photos);
             
-            long photo_count = (long)em.createNamedQuery("getPhotoCount", Long.class)
+            long photo_count = (long)em.createNamedQuery("getSearchPhotoCount", Long.class).setParameter("keyword", "%"+ keyword +"%")
                     .getSingleResult();
             request.setAttribute("photo_count", photo_count);
 

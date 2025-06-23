@@ -101,8 +101,15 @@
                     <c:out value="${i}" />&nbsp;
                 </c:when>
                 <c:otherwise>
+                    <c:if test="${searched}">
+                    <a href="${pageContext.request.contextPath}/search?keyword=${keyword}&page=${i}"><c:out
+                            value="${i}" /></a>&nbsp;
+                    </c:if>
+                    <c:if test="${not searched}">
                     <a href="${pageContext.request.contextPath}/list?page=${i}"><c:out
                             value="${i}" /></a>&nbsp;
+                    </c:if>
+                        
                 </c:otherwise>
             </c:choose>
         </c:forEach>
